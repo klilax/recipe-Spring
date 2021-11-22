@@ -1,10 +1,10 @@
-package recipes.repositories;
+package com.klilax.recipe.repositories;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import recipes.Recipe;
+import com.klilax.recipe.Recipe;
 
 import java.util.List;
 
