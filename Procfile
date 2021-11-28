@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/recipe-0.0.1-SNAPSHOT-plain.jar
+web: java -jar build/libs/recipe-0.0.1-SNAPSHOT-plain.jar
