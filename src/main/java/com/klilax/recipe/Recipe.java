@@ -3,27 +3,33 @@ package com.klilax.recipe;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 
 @Entity
+@Table(name = "RECIPES")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 public class Recipe {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private Long id;
+    @Column(name = "RecipeId")
+    private long id;
+
+    @ManyToOne
+    @JoinColumn(name = "UserId")
+    @JsonIgnore
+    private User user;
+
+
     @NotBlank
     private String name;
     @NotBlank
@@ -33,17 +39,20 @@ public class Recipe {
     private String description;
     @NotEmpty
     @ElementCollection
+    @Column(name = "DIRECTION")
     private List<@NotBlank String> directions;
     @NotEmpty
     @ElementCollection
+    @Column(name = "INGREDIENT")
     private List<@NotBlank String> ingredients;
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Recipe recipe = (Recipe) o;
-        return id != null && Objects.equals(id, recipe.id);
+        return id == recipe.id;
     }
     @Override
     public int hashCode() {
@@ -53,6 +62,7 @@ public class Recipe {
         name = recipe.getName();
         category = recipe.getCategory();
         date = LocalDateTime.now();
+        user = recipe.getUser();
         description = recipe.getDescription();
         directions = recipe.getDirections();
         ingredients = recipe.getIngredients();
